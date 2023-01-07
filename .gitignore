@@ -1,0 +1,6 @@
+node_modules
+.serverless
+dist
+yarn-error.log
+.webpack
+package-lock.json
