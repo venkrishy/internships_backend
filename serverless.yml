@@ -10,6 +10,10 @@ provider:
   httpApi:
     cors: true
 
+params:
+  dev:
+    webscrape_page: "https://github.com/pittcsc/Summer2023-Internships"
+
 functions:
   helloWorldFunction: 
     handler: index.handler

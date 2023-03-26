@@ -29,7 +29,6 @@ function parse_page(htmldata) {
         if (counter == 1) {
             row.location = text;
             row.location_html = html;
-            row.closed = text.includes("Closed");
         }
         if (counter == 2) {
             row.notes = text;
@@ -46,13 +45,16 @@ function parse_page(htmldata) {
         if (counter == 3) {
             row.id = row_index;
             row.index = row_index;
-            arrays.push(row);
+            row.closed = (row.notes.indexOf("Closed") >= 0);
+            if (!row.closed) {
+                arrays.push(row);
+            }
             row = new Row();
             counter = 0;
             row_index += 1;
         }
     });
-    return arrays;
+    return arrays.reverse();
 }
 function remove_extra_spaces(text) {
     return text.replace(/\s\s+/g, ' ');
@@ -62,6 +64,7 @@ function remove_emojis(text) {
 }
 async function scrape(url) {
     try {
+        console.log("SCRAPE PAGE URL IS ", url);
         const result = await axios_1.default.get(url);
         if (result.status === 200 && result.data) {
             const parsed_page = parse_page(result.data);
